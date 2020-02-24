@@ -17,6 +17,8 @@ import com.imooc.miaosha.util.MD5Util;
 import com.imooc.miaosha.util.UUIDUtil;
 import com.imooc.miaosha.vo.LoginVo;
 
+import java.util.Date;
+
 @Service
 public class MiaoshaUserService {
 
@@ -127,4 +129,35 @@ public class MiaoshaUserService {
         response.addCookie(cookie);
     }
 
+    /**
+     * 注册方法
+     * @param response
+     * @param userName
+     * @param passWord
+     * @param salt
+     * @return
+     */
+    public boolean register(HttpServletResponse response , String userName ,String nickname, String passWord , String salt) {
+        MiaoshaUser miaoShaUser =  new MiaoshaUser();
+        miaoShaUser.setId(Long.valueOf(userName));
+        miaoShaUser.setNickname(nickname);
+        String DBPassWord =  MD5Util.formPassToDBPass(passWord , salt);
+        miaoShaUser.setPassword(DBPassWord);
+        miaoShaUser.setRegisterDate(new Date());
+        miaoShaUser.setSalt(salt);
+        miaoShaUser.setNickname(userName);
+        try {
+            miaoshaUserDao.insertMiaoshaUser(miaoShaUser);
+            MiaoshaUser user = miaoshaUserDao.getById(miaoShaUser.getId());
+            if(user == null){
+                return false;
+            }
+            //生成cookie 将session返回游览器 分布式session
+            String token= UUIDUtil.uuid();
+            addCookie(response, token, user);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }
