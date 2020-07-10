@@ -108,8 +108,8 @@ public class MiaoshaUserService {
         if(!calcPass.equals(dbPass)) {
             throw new GlobalException(CodeMsg.PASSWORD_ERROR);
         }
-        //生成cookie
-        String token = UUIDUtil.uuid();//UUID：唯一通用识别码的缩写
+        //生成cookie 分布式session
+        String token = UUIDUtil.uuid();//UUID：唯一通用识别码的缩写。给用户生成一个类似于sessionId的东西
         addCookie(response, token, user);
         return token;
     }

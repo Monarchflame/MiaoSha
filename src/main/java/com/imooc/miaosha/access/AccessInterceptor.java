@@ -39,7 +39,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter{
             MiaoshaUser user = getUser(request, response);
             UserContext.setUser(user);//保存user
             HandlerMethod hm = (HandlerMethod)handler;
-            AccessLimit accessLimit = hm.getMethodAnnotation(AccessLimit.class);//拿到方法的注解
+            AccessLimit accessLimit = hm.getMethodAnnotation(AccessLimit.class);//拿到方法的注解，这是我们自定义的注解@AccessLimit
             if(accessLimit == null) {
                 return true;
             }

@@ -17,27 +17,25 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import com.imooc.miaosha.model.MiaoshaUser;
 import com.imooc.miaosha.service.MiaoshaUserService;
 
+/**
+ * 给controller赋值的类
+ */
 @Service
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
-	@Autowired
-	MiaoshaUserService userService;
+    @Autowired
+    MiaoshaUserService userService;
 
-	/**
-	 *
-	 * @param parameter
-	 * @return
-	 */
-	public boolean supportsParameter(MethodParameter parameter) {
-		//获取参数类型
-		Class<?> clazz = parameter.getParameterType();
-		//如果参数类型是MiaoshaUser返回true
-		return clazz==MiaoshaUser.class;
-	}
+    public boolean supportsParameter(MethodParameter parameter) {
+        //获取参数类型
+        Class<?> clazz = parameter.getParameterType();
+        //如果参数类型是MiaoshaUser返回true
+        return clazz==MiaoshaUser.class;
+    }
 
-	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-			NativeWebRequest webRequest, WebDataBinderFactory binderFactory){
-		return UserContext.getUser();
-	}
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory){
+        return UserContext.getUser();//该线程中的user
+    }
 
 }

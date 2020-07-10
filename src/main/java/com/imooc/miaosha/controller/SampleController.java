@@ -104,10 +104,10 @@ public class SampleController {
 //        return Result.success("Hello，world");
 //    }
 //
-	@RequestMapping("/mq")
-    @ResponseBody
-    public Result<String> mq() {
-		sender.sendDirect("hello,imooc");
-        return Result.success("Hello，world");
-    }
+//	@RequestMapping("/mq")
+//    @ResponseBody
+//    public Result<String> mq() {
+//		sender.sendDirect("hello,imooc");
+//        return Result.success("Hello，world");
+//    }
 }
